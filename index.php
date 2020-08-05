@@ -1,7 +1,7 @@
 
 <?php include './header.php'; ?>
 <body>
-
+<hr/>
 <div class="container">
 <div class="row">
     <div class="col-md-4"><input id="fillMovies" type="submit" value="Fill movies"/></div>

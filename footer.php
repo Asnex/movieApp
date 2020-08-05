@@ -15,16 +15,20 @@
 
 
 <script>
-     // Inicializing tabs
-     $(document).ready(function() {
-    $("#tabs").tabs();
 
-     $("#fillMovies").click(function(){
+     $(document).ready(function() {
+
+      // Inicializing tabs
+       $("#tabs").tabs();
+         
+
+
+         $("#fillMovies").click(function(){
     // Call movie json list
      axios.get("https://raw.githubusercontent.com/FEND16/movie-json-data/master/json/movies-in-theaters.json")
          .then(function (response) {
 
-             console.log(response.data);
+            // console.log(response.data);
              // Iterate through response json
              response.data.forEach(iterate);
 
@@ -79,7 +83,11 @@
 
      });
 
+
      $.getJSON('./getRecommendedMovies.php', function(json) {
+
+         // Get json list of recommended movies per rating
+
          let RecommendedMovies = ``;
          $.each(json, function (key, value) {
              RecommendedMovies += `<li>`+value.title+`</li>`;
@@ -115,6 +123,39 @@
              });
 
          }, 300);
+
+
+         // Get list of movies per day
+         $.getJSON('./getMoviesPerDays.php', function(json) {
+
+
+             $.each(json, function (key, value) {
+                     let day = value.short;
+                     if(day == 'mon'){
+                         $('#'+day).append(value.title + `<br/>`);
+                     } else if(day == 'tue'){
+                         $('#'+day).append(value.title + `<br/>`);
+                     }
+                     else if(day == 'wed'){
+                         $('#'+day).append(value.title + `<br/>`);
+                     }
+                     else if(day == 'thu'){
+                         $('#'+day).append(value.title + `<br/>`);
+                     }
+                     else if(day == 'fri'){
+                         $('#'+day).append(value.title + `<br/>`);
+                     }
+                     else if(day == 'sat'){
+                         $('#'+day).append(value.title + `<br/>`);
+                     }
+                     else if(day == 'sun'){
+                         $('#'+day).append(value.title + `<br/>`);
+
+                     }
+             });
+
+         });
+
      });
 
 </script>
