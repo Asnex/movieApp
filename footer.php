@@ -18,28 +18,63 @@
      // Inicializing tabs
     $("#tabs").tabs();
 
-
+     $("#fillMovies").click(function(){
     // Call movie json list
      axios.get("https://raw.githubusercontent.com/FEND16/movie-json-data/master/json/movies-in-theaters.json")
          .then(function (response) {
 
              console.log(response.data);
+             // Iterate through response json
+             response.data.forEach(iterate);
 
-             $.ajax({
-                 url:"./importMovies.php",
-                 type:"POST",
-                 data:{
-                     importMovies:response.data
-                 }
-             });
+             function iterate(item) {
+                 $.ajax({
+                     url:"./importMovies.php",
+                     type:"POST",
+                     data:{
+                         title:item.title,
+                         storyline:item.storyline,
+                         imdbRating:item.imdbRating,
+                         posterurl:item.posterurl,
+                         releaseDate:item.releaseDate,
+                     }
+                 });
+             }
+
+
+
 
          })
          .catch(function (error) {
              // handle error
+
              console.log(error);
          });
 
+     });
 
+     $.getJSON('./getAllMovies.php', function(json) {
+
+         console.log(json)
+
+         // Get json list of all movies
+         let allMovies = ``;
+         $.each(json, function (key, value) {
+             allMovies += `<li>`+value.title+`</li>`;
+
+         });
+         $('#allMoviesList').html(allMovies);
+
+     });
+
+     $.getJSON('./getRecommendedMovies.php', function(json) {
+         let RecommendedMovies = ``;
+         $.each(json, function (key, value) {
+             RecommendedMovies += `<li>`+value.title+`</li>`;
+
+         });
+         $('#recommendedList').html(RecommendedMovies);
+     });
 
 </script>
 </html>
