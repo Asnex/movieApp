@@ -6,7 +6,11 @@
 <div class="row">
     <div class="col-md-4"><input id="fillMovies" type="submit" value="Fill movies"/></div>
     <div class="col-md-4"><input id="truncateTables" type="submit" value="Truncate tables"/></div>
-    <div class="col-md-4">Grid</div>
+    <div class="col-md-4">
+        <select id="filterGendre">
+            <option value="" disabled selected>filter Gendre</option>
+        </select>
+    </div>
 </div>
     <hr/>
 

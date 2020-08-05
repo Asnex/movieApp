@@ -9,19 +9,52 @@
     crossorigin="anonymous"></script>
 
 <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 
 
 <script>
+    // Inicializing tooltip
 
      $(document).ready(function() {
 
       // Inicializing tabs
        $("#tabs").tabs();
-         
 
+         $(function () {
+             $('[data-toggle="tooltip"]').tooltip()
+         })
+
+
+         $.get("./getGenres.php",
+             {
+             },
+             function(data, status){
+                 var json = JSON.parse(data)
+
+                 $.each(json, function (key, value) {
+
+                     $('#filterGendre').append(`<option value="`+value.id+`">
+                                `+value.genre+` </option>`);
+                 });
+             });
+
+
+         $('#filterGendre').click(function(){
+
+             var genre = $('#filterGendre :selected').val();
+
+             $.post("./getMoviesPerGenres.php",
+                 {
+                     genre: genre
+                 },
+                 function(data, status){
+                     // Get movies per genres... parse json
+                     displayMovies(JSON.parse(data))
+                 });
+         });
 
          $("#fillMovies").click(function(){
     // Call movie json list
@@ -42,6 +75,7 @@
                          imdbRating:item.imdbRating,
                          posterurl:item.posterurl,
                          releaseDate:item.releaseDate,
+                         genres:item.genres
                      }
                  });
              }
@@ -54,7 +88,7 @@
          // Wait to fill database and then reload
          setTimeout(function(){
              location.reload();
-         }, 200);
+         }, 500);
 
 
      });
@@ -74,13 +108,7 @@
      $.getJSON('./getAllMovies.php', function(json) {
 
          // Get json list of all movies
-         let allMovies = ``;
-         $.each(json, function (key, value) {
-             allMovies += `<li>`+value.title+`</li>`;
-
-         });
-         $('#allMoviesList').html(allMovies);
-
+          displayMovies(json)
      });
 
 
@@ -127,34 +155,43 @@
 
          // Get list of movies per day
          $.getJSON('./getMoviesPerDays.php', function(json) {
-
-
+             
              $.each(json, function (key, value) {
-                     let day = value.short;
-                     if(day == 'mon'){
-                         $('#'+day).append(value.title + `<br/>`);
-                     } else if(day == 'tue'){
-                         $('#'+day).append(value.title + `<br/>`);
-                     }
-                     else if(day == 'wed'){
-                         $('#'+day).append(value.title + `<br/>`);
-                     }
-                     else if(day == 'thu'){
-                         $('#'+day).append(value.title + `<br/>`);
-                     }
-                     else if(day == 'fri'){
-                         $('#'+day).append(value.title + `<br/>`);
-                     }
-                     else if(day == 'sat'){
-                         $('#'+day).append(value.title + `<br/>`);
-                     }
-                     else if(day == 'sun'){
-                         $('#'+day).append(value.title + `<br/>`);
+                 let day = value.short;
+                 if(day == 'mon'){
+                     $('#'+day).append(value.title + `<br/>`);
+                 } else if(day == 'tue'){
+                     $('#'+day).append(value.title + `<br/>`);
+                 }
+                 else if(day == 'wed'){
+                     $('#'+day).append(value.title + `<br/>`);
+                 }
+                 else if(day == 'thu'){
+                     $('#'+day).append(value.title + `<br/>`);
+                 }
+                 else if(day == 'fri'){
+                     $('#'+day).append(value.title + `<br/>`);
+                 }
+                 else if(day == 'sat'){
+                     $('#'+day).append(value.title + `<br/>`);
+                 }
+                 else if(day == 'sun'){
+                     $('#'+day).append(value.title + `<br/>`);
 
-                     }
+                 }
              });
 
          });
+
+         // Repetitive function
+         function displayMovies(json)
+         {
+             let allMovies = ``;
+             $.each(json, function (key, value) {
+                 allMovies += `<li>`+value.title+`</li>`;
+             });
+             $('#allMoviesList').html(allMovies);
+         }
 
      });
 
