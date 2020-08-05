@@ -115,6 +115,38 @@ class Movie
 
     }
 
+    # Get list of movies sorted per day
+    public static function getMoviesPerDays()
+    {
+        $sth = Connect::getInstance()->db->prepare("SELECT name, short, title, posterurl FROM `days` AS d LEFT JOIN movies_days AS md ON d.id = md.day_id LEFT JOIN movies AS m ON m.id = md.movie_id ORDER BY d.id");
+        $sth->execute();
+        $results = $sth->fetchAll(PDO::FETCH_ASSOC);
+        return json_encode($results);
+    }
+
+    # Truncate tables if needed...
+    public static function truncateTables()
+    {
+
+        try {
+
+            $sth = Connect::getInstance()->db->prepare("SELECT concat('TRUNCATE TABLE ', TABLE_NAME, ';') AS truncate_tables FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME LIKE 'movies%'
+");
+            $sth->execute();
+            $result = $sth->fetchAll(PDO::FETCH_OBJ);
+
+            foreach ($result as $res) {
+                $sth = Connect::getInstance()->db->prepare("$res->truncate_tables");
+                $sth->execute();
+            }
+
+        }
+        catch (PDOException $e) {
+            echo 'Database error!' . $e->getMessage();
+        }
+
+    }
+
 }
 
 $instance = new Movie();

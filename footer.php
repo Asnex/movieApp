@@ -16,6 +16,7 @@
 
 <script>
      // Inicializing tabs
+     $(document).ready(function() {
     $("#tabs").tabs();
 
      $("#fillMovies").click(function(){
@@ -40,22 +41,33 @@
                      }
                  });
              }
-
-
-
-
          })
          .catch(function (error) {
              // handle error
 
              console.log(error);
          });
+         // Wait to fill database and then reload
+         setTimeout(function(){
+             location.reload();
+         }, 200);
+
 
      });
 
-     $.getJSON('./getAllMovies.php', function(json) {
 
-         console.log(json)
+         $("#truncateTables").click(function(){
+             $.ajax({
+                 url:"./truncateTables.php",
+                 type:"POST",
+                 data:{
+                     //
+                 }
+             });
+             location.reload();
+         });
+
+     $.getJSON('./getAllMovies.php', function(json) {
 
          // Get json list of all movies
          let allMovies = ``;
@@ -73,35 +85,36 @@
              RecommendedMovies += `<li>`+value.title+`</li>`;
 
          });
-      //   $('#recommendedList').html(RecommendedMovies);
+         $('#recommendedList').html(RecommendedMovies);
      });
 
+         // setTimeout to wait data to be populated
+         setTimeout(function(){
+             $("#allMoviesList li, #recommendedList li").draggable({
+                 connectToSortable: "#mon, #tue, #wed, #thu, #fri, #sat, #sun",
+                 helper: 'clone',
+                 items: 'li',
+             });
 
-     $("#allMoviesList li, #recommendedList li").draggable({
-         connectToSortable: "#mon, #tue, #wed, #thu, #fri, #sat, #sun",
-         helper: 'clone',
-         items: 'li',
+             // Drag li items and receive them with id/value
+             $("#mon, #tue, #wed, #thu, #fri, #sat, #sun").sortable({
 
-     });
+                 receive: function (event, ui) {
+                     var dayOfTheWeek = this.id;
+                     var movieValue = $(ui.item).html();
 
-     $("#mon, #tue, #wed, #thu, #fri, #sat, #sun").sortable({
-
-         receive: function (event, ui) {
-             var dayOfTheWeek = this.id;
-             var movieValue = $(ui.item).html();
-
-             $.ajax({
-                 url:"./sortable.php",
-                 type:"POST",
-                 data:{
-                     "dayOfTheWeek":dayOfTheWeek,
-                     "movieValue":movieValue
+                     $.ajax({
+                         url:"./sortable.php",
+                         type:"POST",
+                         data:{
+                             "dayOfTheWeek":dayOfTheWeek,
+                             "movieValue":movieValue
+                         }
+                     });
                  }
              });
 
-         
-
-         }
+         }, 300);
      });
 
 </script>
