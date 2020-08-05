@@ -73,7 +73,35 @@
              RecommendedMovies += `<li>`+value.title+`</li>`;
 
          });
-         $('#recommendedList').html(RecommendedMovies);
+      //   $('#recommendedList').html(RecommendedMovies);
+     });
+
+
+     $("#allMoviesList li, #recommendedList li").draggable({
+         connectToSortable: "#mon, #tue, #wed, #thu, #fri, #sat, #sun",
+         helper: 'clone',
+         items: 'li',
+
+     });
+
+     $("#mon, #tue, #wed, #thu, #fri, #sat, #sun").sortable({
+
+         receive: function (event, ui) {
+             var dayOfTheWeek = this.id;
+             var movieValue = $(ui.item).html();
+
+             $.ajax({
+                 url:"./sortable.php",
+                 type:"POST",
+                 data:{
+                     "dayOfTheWeek":dayOfTheWeek,
+                     "movieValue":movieValue
+                 }
+             });
+
+         
+
+         }
      });
 
 </script>

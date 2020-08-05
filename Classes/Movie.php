@@ -59,6 +59,62 @@ class Movie
         }
     }
 
+    # Insert movie/day combinations
+    public function sortable($day, $movie)
+    {
+        $getDay = $this->getDayID($day);
+        $getMovie = $this->getMovieID($movie);
+
+        try {
+
+            $sth = Connect::getInstance()->db->prepare("INSERT INTO movies_days (`day_id`, `movie_id`)
+                                                                    VALUES (:day_id, :movie_id)");
+            $sth->bindParam(':day_id', $getDay);
+            $sth->bindParam(':movie_id', $getMovie);
+            $sth->execute();
+
+        } catch (PDOException $e) {
+            echo 'Database error!' . $e->getMessage();
+        }
+    }
+
+    # Private functions not accessible outside the class
+    # Get day ID stored in the database by short name
+    private function getDayID($day)
+    {
+
+        try {
+            $sth = Connect::getInstance()->db->prepare("SELECT id FROM `days` WHERE short = '$day'");
+            $sth->execute();
+            $result = $sth->fetchAll(PDO::FETCH_OBJ);
+
+            foreach ($result as $res) {
+                return $res->id;
+            }
+        }catch (PDOException $e) {
+            echo 'Database error!' . $e->getMessage();
+        }
+
+    }
+
+    # Get movie ID stored in the database by title
+    private function getMovieID($movie)
+    {
+
+        try {
+            $sth = Connect::getInstance()->db->prepare("SELECT id FROM `movies` WHERE title = '$movie'");
+            $sth->execute();
+            $result = $sth->fetchAll(PDO::FETCH_OBJ);
+
+            foreach ($result as $res) {
+                return $res->id;
+            }
+        }catch (PDOException $e) {
+            echo 'Database error!' . $e->getMessage();
+        }
+
+    }
+
 }
 
 $instance = new Movie();

@@ -23,7 +23,8 @@
         </div>
         <div id="recommendedMovies">
             <ul id="recommendedList">
-
+            <li>Rambo</li>
+            <li>Terminator</li>
             </ul>
         </div>
     </div>
@@ -31,13 +32,13 @@
 <div class="container-fluid">
     <hr/>
     <div class="row">
-        <div class="col-md-2">Monday</div>
-        <div class="col-md-2">Tuesday</div>
-        <div class="col-md-2">Wednesday</div>
-        <div class="col-md-2">Thursday</div>
-        <div class="col-md-2">Friday</div>
-        <div class="col-md-1">Saturday</div>
-        <div class="col-md-1">Sunday</div>
+        <div class="col-md-2" id="mon">Monday</div>
+        <div class="col-md-2" id="tue">Tuesday</div>
+        <div class="col-md-2" id="mon">Wednesday</div>
+        <div class="col-md-2" id="mon">Thursday</div>
+        <div class="col-md-2" id="mon">Friday</div>
+        <div class="col-md-1" id="mon">Saturday</div>
+        <div class="col-md-1" id="mon">Sunday</div>
     </div>
 </div>
 
