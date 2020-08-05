@@ -1,4 +1,4 @@
-
+<div class="footer"></div>
 <script
     src="https://code.jquery.com/jquery-3.5.1.min.js"
     integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
@@ -8,25 +8,33 @@
     integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
     crossorigin="anonymous"></script>
 
-<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 
 
 <script>
-    // Inicializing tooltip
 
      $(document).ready(function() {
 
       // Inicializing tabs
        $("#tabs").tabs();
 
-         $(function () {
-             $('[data-toggle="tooltip"]').tooltip()
-         })
 
+         $("#search").keyup(function(event) {
+             console.log(event.key)
+             let searchString =  $("#search").val();
+             $.post("./getAllMovies.php",
+                 {
+                     searchString: searchString
+                 },
+                 function(data, status){
+                     displayMovies(JSON.parse(data))
+                 });
+         });
 
          $.get("./getGenres.php",
              {
@@ -149,35 +157,40 @@
                      });
                  }
              });
-
+             // Delay init tooltip...
+             $(function () {
+                 $('[data-toggle="tooltip"]').tooltip()
+             })
          }, 300);
 
 
          // Get list of movies per day
          $.getJSON('./getMoviesPerDays.php', function(json) {
-             
+
              $.each(json, function (key, value) {
+                 let append = value.title + `<a data-toggle="tooltip" data-placement="right" data-html="true" class="btn btn-info" title="<img src=`+value.posterurl+` />" >
+                <i class="fa fa-info-circle">Cover poster</i>
+            </a><br/>`;
                  let day = value.short;
                  if(day == 'mon'){
-                     $('#'+day).append(value.title + `<br/>`);
+                     $('#'+day).append(append);
                  } else if(day == 'tue'){
-                     $('#'+day).append(value.title + `<br/>`);
+                     $('#'+day).append(append);
                  }
                  else if(day == 'wed'){
-                     $('#'+day).append(value.title + `<br/>`);
+                     $('#'+day).append(append);
                  }
                  else if(day == 'thu'){
-                     $('#'+day).append(value.title + `<br/>`);
+                     $('#'+day).append(append);
                  }
                  else if(day == 'fri'){
-                     $('#'+day).append(value.title + `<br/>`);
+                     $('#'+day).append(append);
                  }
                  else if(day == 'sat'){
-                     $('#'+day).append(value.title + `<br/>`);
+                     $('#'+day).append(append);
                  }
                  else if(day == 'sun'){
-                     $('#'+day).append(value.title + `<br/>`);
-
+                     $('#'+day).append(append);
                  }
              });
 

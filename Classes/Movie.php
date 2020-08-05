@@ -128,7 +128,7 @@ class Movie
     # Get list of movies sorted per day
     public static function getMoviesPerDays()
     {
-        $sth = Connect::getInstance()->db->prepare("SELECT name, short, title, posterurl FROM `days` AS d LEFT JOIN movies_days AS md ON d.id = md.day_id LEFT JOIN movies AS m ON m.id = md.movie_id ORDER BY d.id");
+        $sth = Connect::getInstance()->db->prepare("SELECT name, short, title, posterurl FROM `days` AS d LEFT JOIN movies_days AS md ON d.id = md.day_id LEFT JOIN movies AS m ON m.id = md.movie_id WHERE title IS NOT NULL ORDER BY d.id");
         $sth->execute();
         $results = $sth->fetchAll(PDO::FETCH_ASSOC);
         return json_encode($results);
@@ -262,6 +262,21 @@ class Movie
             return json_encode($results);
         }
         catch (PDOException $e) {
+            echo 'Database error!' . $e->getMessage();
+        }
+    }
+
+    # Get movies based on search input
+    public static function getSearchedMovies($search)
+    {
+
+        try {
+            $sth = Connect::getInstance()->db->prepare("SELECT * FROM `movies` WHERE title LIKE '$search%'");
+            $sth->execute();
+            $results = $sth->fetchAll(PDO::FETCH_ASSOC);
+            return json_encode($results);
+
+        } catch (PDOException $e) {
             echo 'Database error!' . $e->getMessage();
         }
     }

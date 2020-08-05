@@ -4,9 +4,14 @@
 <hr/>
 <div class="container">
 <div class="row">
-    <div class="col-md-4"><input id="fillMovies" type="submit" value="Fill movies"/></div>
-    <div class="col-md-4"><input id="truncateTables" type="submit" value="Truncate tables"/></div>
-    <div class="col-md-4">
+    <div class="col-md-3"><input id="fillMovies" type="submit" value="Fill movies"/></div>
+    <div class="col-md-3"><input id="truncateTables" type="submit" value="Truncate tables"/></div>
+    <div class="col-md-3">
+        <form>
+            <input id="search" type="text" placeholder="Search movies">
+        </form>
+    </div>
+    <div class="col-md-3">
         <select id="filterGendre">
             <option value="" disabled selected>filter Gendre</option>
         </select>

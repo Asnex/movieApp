@@ -1,3 +1,10 @@
 <?php
 require "./Classes/Movie.php";
-echo Movie::getAllMovies();
+$searchString = $_POST['searchString'];
+if(empty($searchString))
+{
+    echo Movie::getAllMovies();
+
+} else {
+    echo Movie::getSearchedMovies($searchString);
+}
