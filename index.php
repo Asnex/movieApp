@@ -38,7 +38,8 @@
 </div>
 <div class="container-fluid">
     <hr/>
-    <table id="movieDataTable" class="w-100">
+    <div id="movieDataTable">
+    <table  class="w-100">
         <thead>
         <tr>
             <th>Monday</th>
@@ -63,8 +64,13 @@
         </tbody>
 
     </table>
+    </div>
 </div>
-
+<hr/>
+<div class='button'>
+    <a href="#" id ="export" role='button' class="btn-primary btn p-2 m-2">Export CSV
+    </a>
+</div>
 
 </body>
 <?php include './footer.php'; ?>
