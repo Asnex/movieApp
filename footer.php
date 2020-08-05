@@ -10,11 +10,36 @@
 
 <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 
 
 <script>
-
+     // Inicializing tabs
     $("#tabs").tabs();
+
+
+    // Call movie json list
+     axios.get("https://raw.githubusercontent.com/FEND16/movie-json-data/master/json/movies-in-theaters.json")
+         .then(function (response) {
+
+             console.log(response.data);
+
+             $.ajax({
+                 url:"./importMovies.php",
+                 type:"POST",
+                 data:{
+                     importMovies:response.data
+                 }
+             });
+
+         })
+         .catch(function (error) {
+             // handle error
+             console.log(error);
+         });
+
+
 
 </script>
 </html>
