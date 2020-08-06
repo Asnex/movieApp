@@ -68,7 +68,7 @@
 </div>
 <hr/>
 <div class='button'>
-    <a href="#" id ="export" role='button' class="btn-primary btn p-2 m-2">Export CSV
+    <a href="./csv.php" class="btn-primary btn p-2 m-2">Export CSV
     </a>
 </div>
 

@@ -282,6 +282,79 @@ class Movie
     }
 
 
+    # Function for preparing data for csv export
+    public function getCSVExport()
+    {
+        $sth = Connect::getInstance()->db->prepare("SELECT name, short, title, posterurl FROM `days` AS d LEFT JOIN movies_days AS md ON d.id = md.day_id LEFT JOIN movies AS m ON m.id = md.movie_id ORDER BY d.id");
+        $sth->execute();
+        $results = $sth->fetchAll(PDO::FETCH_OBJ);
+        $data = [];
+        $mon = '';
+        $tue = '';
+        $wed = '';
+        $thu = '';
+        $fri = '';
+        $sat = '';
+        $sun = '';
+
+        foreach ($results as $res)
+        {
+            $day = $res->short;
+            $title = $res->title . ',';
+            if($day == 'mon')
+            {
+                $mon .= $title;
+                $values = explode(',',substr($mon, 0, -1));
+                $data['Monday'] = $values;
+            } else if($day == 'tue')
+            {
+                $tue .= $title;
+                $values = explode(',',substr($tue, 0, -1));
+                $data['Tuesday'] = $values;
+
+            }
+            else if($day == 'wed')
+            {
+                $wed .= $title;
+                $values = explode(',',substr($wed, 0, -1));
+                $data['Wednesday'] = $values;
+
+            }
+            else if($day == 'thu')
+            {
+                $thu .= $title;
+                $values = explode(',',substr($thu, 0, -1));
+                $data['Thursday'] = $values;
+
+            }
+            else if($day == 'fri')
+            {
+                $fri .= $title;
+                $values = explode(',',substr($fri, 0, -1));
+                $data['Friday'] = $values;
+
+            }
+            else if($day == 'sat')
+            {
+                $sat .= $title;
+                $values = explode(',',substr($sat, 0, -1));
+                $data['Saturday'] = $values;
+
+            }
+            else if($day == 'sun')
+            {
+                $sun .= $title;
+                $values = explode(',',substr($sun, 0, -1));
+                $data['Sunday'] = $values;
+
+            }
+
+        }
+
+        return $data;
+    }
+
+
 
 }
 

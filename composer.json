@@ -1,0 +1,15 @@
+{
+  "name": "vendor_name/movieApp",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "asnex",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+    "phpoffice/phpspreadsheet": "^1.14"
+  }
+}
